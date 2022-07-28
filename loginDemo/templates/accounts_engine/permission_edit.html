@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <a href="#" onclick="history.back()">
+    <span class="material-icons">arrow_back</span>
+  </a>
+<div class="row">
+
+  <div class="card col-md-8 col-sm-12 ml-auto mr-auto mt-0">
+    <div class="card-title">
+      <h3 class="text-center">Edit Permission</h3>
+    </div>
+    <div class="card-body">
+      {% crispy edit_permission_form %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    url = "{% url 'permission_edit' permission_id %}";
+    $('form').attr("action", url);
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row  mt-0">
+  <div class="col-md-12 ml-auto mr-auto">
+    <div class="page-categories">
+      <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#my_profile_section" role="tablist">
+            <i class="material-icons">account_circle</i> My Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#role_section" role="tablist">
+            <i class="material-icons">badge</i> Roles
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#group_section" role="tablist">
+            <i class="material-icons">groups</i> Groups
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#custom_permission_section" role="tablist">
+            <i class="material-icons">settings_accessibility</i> Custom permission
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#responsibilities_section" role="tablist">
+            <i class="material-icons">work</i> Responsibilities
+          </a>
+        </li>
+
+      </ul>
+      <div class="tab-content tab-space tab-subcategories">
+        <div class="tab-pane active" id="my_profile_section">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <a href="#pablo">
+                <img class="img" src="{% static 'img/faces/marc.jpg' %}" />
+              </a>
+            </div>
+            <div class="card-body">
+              {% if not user_profile %}
+              <h3>{{request.user.get_user_detail.first_name}} {{request.user.get_user_detail.last_name}}</h3>
+              <p>works for {{request.user.get_user_detail.company}}</p>
+              <p>{{request.user.email}}</p>
+              <p>{{request.user.get_user_detail.mobile_number}}</p>
+              {% else %}
+              <h3>{{user_profile.get_user_detail.first_name}} {{user_profile.get_user_detail.last_name}}</h3>
+              <p>works for {{user_profile.get_user_detail.company}}</p>
+              <p>{{user_profile.email}}</p>
+              <p>{{user_profile.get_user_detail.mobile_number}}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="role_section">
+          <div class="card">
+            <div class="card-header text-center mb-0 pb-0">
+              <h2 class="card-title">Roles</h2>
+              <p class="card-category">
+                click a role to view the permissions associated with it.
+                <br>
+                Roles give specific permissions to the user.
+              </p>
+            </div>
+            <div class="card-body text-center mt-0 pt-0">
+              <div id="role_accordion" role="tablist">
+                {% if not user_profile %}
+                {% for each in request.user.get_user_detail.get_all_roles %}
+                <div class="card-collapse">
+                  <div class="card-header" role="tab" id="heading_role{{forloop.counter}}">
+                    <h5 class="mb-0">
+                      <a data-toggle="collapse" href="#collapse_role{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_role{{forloop.counter}}" class="collapsed text-primary">
+                        {{each}}
+                        <i class="material-icons">keyboard_arrow_down</i>
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="collapse_role{{forloop.counter}}" class="collapse" role="tabpanel" aria-labelledby="heading_role{{forloop.counter}}" data-parent="#role_accordion" style="">
+                    <div class="card-body">
+                      {% for each2 in each.get_permissions_of_role  %}
+                      <p>{{each2}}</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                {% for each in user_profile.get_user_detail.get_all_roles %}
+                <div class="card-collapse">
+                  <div class="card-header" role="tab" id="heading_role{{forloop.counter}}">
+                    <h5 class="mb-0">
+                      <a data-toggle="collapse" href="#collapse_role{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_role{{forloop.counter}}" class="collapsed text-primary">
+                        {{each}}
+                        <i class="material-icons">keyboard_arrow_down</i>
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="collapse_role{{forloop.counter}}" class="collapse" role="tabpanel" aria-labelledby="heading_role{{forloop.counter}}" data-parent="#role_accordion" style="">
+                    <div class="card-body">
+                      {% for each2 in each.get_permissions_of_role  %}
+                      <p>{{each2}}</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="group_section">
+          <div class="card">
+            <div class="card-header text-center mb-0 pb-0">
+              <h2 class="card-title">Groups</h2>
+              <p class="card-category">
+                click a grpup to view the permissions associated with it.
+                <br>
+                Groups give specific permissions to the user.
+              </p>
+            </div>
+            <div class="card-body text-center mt-0 pt-0">
+              <div id="group_accordion" role="tablist">
+                {% if not user_profile %}
+                {% for each in request.user.get_user_detail.get_all_groups %}
+                <div class="card-collapse">
+                  <div class="card-header" role="tab" id="heading_group{{forloop.counter}}">
+                    <h5 class="mb-0">
+                      <a data-toggle="collapse" href="#collapse_group{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_group{{forloop.counter}}" class="collapsed text-primary">
+                        {{each}}
+                        <i class="material-icons">keyboard_arrow_down</i>
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="collapse_group{{forloop.counter}}" class="collapse" role="tabpanel" aria-labelledby="heading_group{{forloop.counter}}" data-parent="#group_accordion" style="">
+                    <div class="card-body">
+                      {% for each2 in each.get_permissions_of_group %}
+                      <p>{{each2}}</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                {% for each in user_profile.get_user_detail.get_all_groups %}
+                <div class="card-collapse">
+                  <div class="card-header" role="tab" id="heading_group{{forloop.counter}}">
+                    <h5 class="mb-0">
+                      <a data-toggle="collapse" href="#collapse_group{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_group{{forloop.counter}}" class="collapsed text-primary">
+                        {{each}}
+                        <i class="material-icons">keyboard_arrow_down</i>
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="collapse_group{{forloop.counter}}" class="collapse" role="tabpanel" aria-labelledby="heading_group{{forloop.counter}}" data-parent="#group_accordion" style="">
+                    <div class="card-body">
+                      {% for each2 in each.get_permissions_of_group %}
+                      <p>{{each2}}</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="custom_permission_section">
+          <div class="card">
+            <div class="card-header text-center mb-0 pb-0">
+              <h2 class="card-title">Custom Permission</h2>
+              <p class="card-category">
+                User acquired permission to access page using roles and groups.
+                <br>
+                Custom permissions are permissions that are not a part of any role or group.
+              </p>
+            </div>
+            <div class="card-body text-center mt-0 pt-0">
+              {% if not user_profile %}
+              {% for each in request.user.get_user_detail.get_all_custom_permissions %}
+              <p>{{each}}</p>
+              {% endfor %}
+              {% else %}
+              {% for each in user_profile.get_user_detail.get_all_custom_permissions %}
+              <p>{{each}}</p>
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="responsibilities_section">
+          <div class="card">
+            <div class="card-header text-center mb-0 pb-0">
+              <h2 class="card-title">Tasks</h2>
+              <p class="card-category">
+                list of daily, weekly, monthly tasks assigned to the user because they are assigned a particular role or group.
+              </p>
+            </div>
+            <div class="card-body text-center mt-0 pt-0">
+              todo here
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

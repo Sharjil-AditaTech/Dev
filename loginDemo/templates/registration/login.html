@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Login
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="{% static 'css/material-dashboard.min.css' %}" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="{% static 'demo/demo.css' %}" rel="stylesheet" />
+</head>
+
+<body class="off-canvas-sidebar">
+  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+    <div class="container">
+      <div class="navbar-wrapper">
+        <a class="navbar-brand" href="#pablo"><img src="{% static 'img/logo.png' %}" alt=""></a>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+  <div class="wrapper wrapper-full-page">
+    <div class="page-header login-page header-filter" filter-color="black" style="background-image: url({% static 'img/background_image.jpg' %}); background-size: cover; background-position: top center;">
+      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+              <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">Login</h3>
+              </div>
+              <div class="card-body">
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                  {{form.errors}}
+                  <strong>Attention!</strong> Your username and password didn't match. Please try again.
+                </div>
+                {% endif %}
+                <form method="POST" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label class="large mb-1" for="id_username">Email</label>
+                    <input class="form-control py-4" type="email" name="username" id="id_username" maxlength="254" autofocus="" required placeholder="Enter email address" />
+                  </div>
+                  <div class="form-group">
+                    <label class="big mb-1" for="id_password">Password</label>
+                    <input class="form-control py-4" type="password" name="password" id="id_password" required placeholder="Enter password" />
+                  </div>
+                  <div class="form-group mt-4 mb-0">
+                    <button class="btn btn-primary" type="submit" name="button" style="width:100%">Login</button>
+                  </div>
+
+                </form>
+                <small>Don't have an account yet?<a href="{% url 'signup' %}">Sign up</a></small><br>
+                <small><a href="">Forgot your password?</a></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="{% static 'js/core/jquery.min.js' %}"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static  'js/core/bootstrap-material-design.min.js' %}"></script>
+  <script src="{% static  'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+</body>
+
+</html>

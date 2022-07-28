@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row mt-0 pt-0">
+  <div class="card col-md-12 col-sm-12 ml-auto mr-auto  mt-1 mb-0">
+    <div class="card-title text-center">
+      <h4>Task: {{task.task}}</h4>
+      <span class="badge badge-{{task.get_status_colour}}">{{task.get_status_display}}</span>
+    </div>
+    <div class="card-body text-center">
+      <div class="row">
+        <div class="col-md-8 col-sm-12">
+          <p>{{task.description}}</p>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <p>Start Date: {{task.start_date}}</p>
+          <p>End Date: {{task.end_date}}</p>
+          <p>Created by: {{task.created_by}}</p>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          {% if task_status_update_form %}
+          {% crispy task_status_update_form %}
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

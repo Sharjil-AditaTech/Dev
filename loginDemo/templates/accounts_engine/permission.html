@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="card col-md-8 col-sm-12 ml-auto mr-auto mt-0">
+    <div class="card-title">
+      <h3 class="text-center">Add Permission</h3>
+    </div>
+    <div class="card-body">
+      {% crispy permission_form %}
+    </div>
+  </div>
+</div>
+
+<div class="row mt-0 pt-0">
+  <div class="card col-md-12 col-sm-12 mt-1 mb-0">
+    <div class="card-body">
+
+      <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+        <thead class="text-center">
+          <th>sl</th>
+          <th>Section</th>
+          <th>Url Name</th>
+          <th>Action</th>
+        </thead>
+        <tbody class="text-center">
+          {% for each in permission_list %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{each.get_section_display}}</td>
+            <td>{{each.url_name}}</td>
+            <td class="text-right">
+              <a class="btn btn-link btn-warning btn-just-icon edit" href="{% url 'permission_edit' each.id %}"><i class="material-icons">edit</i></a>
+              <a class="btn btn-link btn-danger btn-just-icon close" href="#" onclick="throw_warning('Are you sure, you want to delete this role?', action_link='{% url "permission_delete" each.id %}')"><i class="material-icons">close</i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot class="text-center">
+          <th>sl</th>
+          <th>Section</th>
+          <th>Url Name</th>
+          <th class="text-right">Action</th>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatables').DataTable({
+      "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+      ],
+      responsive: true,
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search records",
+      }
+    });
+  });
+</script>
+{% endblock %}

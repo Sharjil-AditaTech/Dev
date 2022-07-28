@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="card col-md-8 col-sm-12 ml-auto mr-auto mt-0">
+    <div class="card-title">
+      <h3 class="text-center">Add New User</h3>
+    </div>
+    <div class="card-body">
+      {% crispy signupForm %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('form').append('<button class="btn btn-primary" type="submit">ADD</button>')
+  })
+</script>
+{% endblock %}

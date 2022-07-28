@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+
+  <div class="card col-md-8 col-sm-12 ml-auto mr-auto mt-0">
+    <div class="card-title">
+      <h3 class="text-center">{%if request.resolver_match.url_name == 'edit_task' %} Edit {% else %} Add {% endif %} Task</h3>
+    </div>
+    <div class="card-body">
+      {% crispy task_form %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+</script>
+{% endblock %}

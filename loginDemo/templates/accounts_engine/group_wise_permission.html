@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row mt-0 pt-0">
+  <div class="card col-md-8 col-sm-12 ml-auto mr-auto  mt-1 mb-0">
+    <div class="card-header">
+      <div class="card-title">
+        <h4 class="text-center">Permissions of Group - {{group}}</h4>
+        {% if not add_permission_to_group_form %}
+        <div class="text-right">
+          <a class="btn btn-primary mb-5" href="{% url 'add_permission_to_group' group.id %}">1Add/ Edit/ Delete Permission</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-body">
+      {% if add_permission_to_group_form %}
+      <div class="mb-3">
+        {% crispy add_permission_to_group_form %}
+      </div>
+      {% endif %}
+      <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+        <thead class="text-center">
+          <th>sl</th>
+          <th>Permission</th>
+        </thead>
+        <tbody class="text-center">
+          {% for each in group_wise_permissions %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{each}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot class="text-center">
+          <th>sl</th>
+          <th>Permission</th>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatables').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+      ],
+      responsive: true,
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search records",
+      }
+    });
+  });
+</script>
+{% endblock %}
